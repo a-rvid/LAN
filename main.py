@@ -1,7 +1,9 @@
 import pygame
 import sys
-import flashbang
 from datetime import datetime
+
+import flashbang
+import randomgifs
 
 pygame.init()
 screen = pygame.display.set_mode((1920, 1080))
@@ -43,13 +45,20 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 flashbang.flashbang()
+            elif event.key == pygame.K_g:
+                randomgifs.start_random_gif()
 
     screen.fill(colors["background"])
     flashbang.video(dt)
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
 
+    # Flashbang
     flashbang.update(dt, colors)
 
+    # GIF
+    
+
+    # FPS
     fps_timer += dt
     if fps_timer >= 0.5:
         sys.stdout.write(f"\rFPS: {clock.get_fps():.1f}   ")
