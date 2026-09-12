@@ -1,14 +1,16 @@
 import pygame
 import sys
+import flashbang
 from datetime import datetime
 
-import flashbang
-import randomgifs
+BASE_WIDTH = 1280
+BASE_HEIGHT = 720
 
 pygame.init()
-screen = pygame.display.set_mode((1920, 1080))
+screen = pygame.display.set_mode((BASE_WIDTH, BASE_HEIGHT))
 pygame.mouse.set_visible(False)
 clock = pygame.time.Clock()
+scale = screen.get_width() / BASE_WIDTH
 running = True
 
 # Load fonts
@@ -16,9 +18,16 @@ font_path = "./fonts/"
 font_size = 112
 secret_font = pygame.font.Font(font_path + "SecretFont.ttf", font_size)
 normal_font = pygame.font.Font(font_path + "LowEffortFont.ttf", font_size)
+logo = pygame.image.load("images/logo.png")
+
+# Resize logo
+logo_width = int(300 * scale)
+logo_height = int(200 * scale)
+
+logo = pygame.transform.smoothscale(logo, (logo_width, logo_height))
 
 # Set the window title
-pygame.display.set_caption("Digital Clock")
+pygame.display.set_caption("LAN")
 
 colors = {
     "text": (255, 255, 255),  # White color for the clock text
@@ -45,20 +54,15 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 flashbang.flashbang()
-            elif event.key == pygame.K_g:
-                randomgifs.start_random_gif()
 
     screen.fill(colors["background"])
+    screen.blit(logo, (500, 500))
     flashbang.video(dt)
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
 
-    # Flashbang
     flashbang.update(dt, colors)
 
-    # GIF
-    
-
-    # FPS
+    screen.blit(logo, (500, 500))
     fps_timer += dt
     if fps_timer >= 0.5:
         sys.stdout.write(f"\rFPS: {clock.get_fps():.1f}   ")
