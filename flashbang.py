@@ -29,29 +29,46 @@ def flashbang():
     mixer.music.load("flashbang.mp3")
     mixer.music.play()
 
-def update(dt, screen):
+def update(dt, screen, colors):
     global time_since_flashbang, percentage, is_flashing
+
     if is_flashing:
         time_since_flashbang += dt
 
-        if (time_since_flashbang > 0):
+        if time_since_flashbang > 0:
             if time_since_flashbang < ease_time:
-                percentage = ease_in_quad(time_since_flashbang / ease_time)
+                percentage = ease_in_quad(
+                    time_since_flashbang / ease_time
+                )
 
             elif time_since_flashbang < flashbang_duration - ease_time:
                 percentage = 1.0
-
+                
             elif time_since_flashbang < flashbang_duration:
-                percentage = ease_out_quad((time_since_flashbang - (flashbang_duration - ease_time)) / ease_time)
+                # White → black
+                percentage = 1 - ease_out_quad(
+                    (time_since_flashbang -
+                    (flashbang_duration - ease_time)) / ease_time
+                )
 
             else:
                 percentage = 0.0
                 is_flashing = False
-        pixels = pygame.surfarray.pixels3d(screen)
-        # print(percentage)
-        pixels[:] = pixels * (1 - percentage) + (255 - pixels) * percentage
-        del pixels
-    # print(time_since_flashbang)
+
+        # Invert colors
+        default_text = colors["default"]["text"]
+        default_background = colors["default"]["background"]
+
+        colors["text"] = tuple(
+            int(c * (1 - percentage) + (255 - c) * percentage)
+            for c in default_text
+        )
+
+        colors["background"] = tuple(
+            int(c * (1 - percentage) + (255 - c) * percentage)
+            for c in default_background
+        )
+
 
 
 def video(dt):

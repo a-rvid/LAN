@@ -18,10 +18,19 @@ normal_font = pygame.font.Font(font_path + "LowEffortFont.ttf", font_size)
 # Set the window title
 pygame.display.set_caption("Digital Clock")
 
+colors = {
+    "text": (255, 255, 255),  # White color for the clock text
+    "background": (0, 0, 0),   # Black background
+    "default": {
+        "text": (255, 255, 255),  # White color for the clock text
+        "background": (0, 0, 0)   # Black background
+    }
+}
+
 def draw_clock(clockFont, position):
     # Draw current time
     now = datetime.now()
-    text = clockFont.render(now.strftime("%H:%M:%S"), True, (255, 255, 255))
+    text = clockFont.render(now.strftime("%H:%M:%S"), True, colors["text"])
     centered_position = (position[0] - text.get_width() // 2, position[1] - text.get_height() // 2)
     screen.blit(text, centered_position)
 
@@ -35,11 +44,11 @@ while running:
             if event.key == pygame.K_SPACE:
                 flashbang.flashbang()
 
-    screen.fill((0, 0, 0))
+    screen.fill(colors["background"])
     flashbang.video(dt)
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
 
-    flashbang.update(dt, screen)
+    flashbang.update(dt, screen, colors)
 
     fps_timer += dt
     if fps_timer >= 0.5:
