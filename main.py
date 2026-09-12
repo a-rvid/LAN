@@ -2,19 +2,25 @@ import pygame
 from datetime import datetime
 
 pygame.init()
-screen = pygame.display.set_mode((1280, 720))
+screen = pygame.display.set_mode((1920, 1080))
 clock = pygame.time.Clock()
 running = True
-font = pygame.font.SysFont(None, 36)
+
+# Load fonts
+font_path = "./fonts/"
+font_size = 112
+secretFont = pygame.font.Font(font_path + "SecretFont.ttf", font_size)
+normalFont = pygame.font.Font(font_path + "LowEffortFont.ttf", font_size)
 
 # Set the window title
 pygame.display.set_caption("Digital Clock")
 
-def draw_clock(clockFont, screen_size=(1080, 720)):
+def draw_clock(clockFont, position):
     # Draw current time
     now = datetime.now()
     text = clockFont.render(now.strftime("%H:%M:%S"), True, (255, 255, 255))
-    screen.blit(text, (screen_size[0] // 2 - text.get_width() // 2, screen_size[1] // 2 - text.get_height() // 2))
+    centered_position = (position[0] - text.get_width() // 2, position[1] - text.get_height() // 2)
+    screen.blit(text, centered_position)
 
 while running:
     clock.tick(60)
@@ -24,7 +30,7 @@ while running:
 
     screen.fill((0, 0, 0))
 
-    draw_clock(font, screen.get_size())
+    draw_clock(normalFont, (screen.get_size()[0] // 2, font_size * 1.5))
 
     pygame.display.flip()
 
