@@ -1,7 +1,6 @@
 import pygame
 import time
 import threading
-import numpy
 from pygame import mixer
 from datetime import datetime
 
@@ -37,7 +36,7 @@ def flashbang():
     mixer.music.play()
     time.sleep(2.5)
     invert = True
-    time.sleep(1)
+    time.sleep(1.8)
     invert = False
 
 
