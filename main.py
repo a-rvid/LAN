@@ -1,5 +1,6 @@
 import pygame
 import sys
+import bouncy_logo
 from datetime import datetime
 
 BASE_WIDTH = 1280
@@ -20,13 +21,6 @@ font_path = "./fonts/"
 font_size = 112
 secret_font = pygame.font.Font(font_path + "SecretFont.ttf", font_size)
 normal_font = pygame.font.Font(font_path + "LowEffortFont.ttf", font_size)
-logo = pygame.image.load("images/logo.png")
-
-# Resize logo
-logo_width = int(300 * scale)
-logo_height = int(200 * scale)
-
-logo = pygame.transform.smoothscale(logo, (logo_width, logo_height))
 
 # Set the window title
 pygame.display.set_caption("LAN")
@@ -61,7 +55,7 @@ while running:
                 randomgifs.start_random_gif()
 
     screen.fill(colors["background"])
-    screen.blit(logo, (500, 500))
+    bouncy_logo.update(screen)
     
     flashbang.video(dt, screen)
 
@@ -69,7 +63,6 @@ while running:
 
     flashbang.update(dt, colors)
 
-    screen.blit(logo, (500, 500))
 
     # GIF
     randomgifs.draw_random_gif(screen, dt, position=(0, 0))
