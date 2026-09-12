@@ -36,6 +36,7 @@ def draw_clock(clockFont, position):
     centered_position = (position[0] - text.get_width() // 2, position[1] - text.get_height() // 2)
     screen.blit(text, centered_position)
 
+
 fps_timer = 0.0
 while running:
     dt = clock.tick(60) / 1000.0
@@ -56,7 +57,8 @@ while running:
     flashbang.update(dt, colors)
 
     # GIF
-    
+    randomgifs.draw_random_gif(screen, dt, position=(0, 0))
+
 
     # FPS
     fps_timer += dt
