@@ -2,7 +2,7 @@ import pygame
 from datetime import datetime
 
 pygame.init()
-screen = pygame.display.set_mode((1080, 720))
+screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
 running = True
 font = pygame.font.SysFont(None, 36)
