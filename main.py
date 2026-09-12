@@ -2,6 +2,7 @@ import pygame
 import time
 import threading
 import math
+import cv2
 from pygame import mixer
 from datetime import datetime
 
@@ -16,6 +17,15 @@ font_path = "./fonts/"
 font_size = 112
 secretFont = pygame.font.Font(font_path + "SecretFont.ttf", font_size)
 normalFont = pygame.font.Font(font_path + "LowEffortFont.ttf", font_size)
+
+# Load video (video won't be used other than flashbang)
+cap = cv2.VideoCapture('flashbang.mp4')
+success, img = cap.read()
+img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+shape = img.shape[1::-1]
+wn = pygame.display.set_mode(shape)
+video_frame_duration = 1 / cap.get(cv2.CAP_PROP_FPS)
+video_time_accum = 0.0
 
 # Set the window title
 pygame.display.set_caption("Digital Clock")
@@ -67,36 +77,41 @@ easeTime = 0.2  # Duration of the easing effect in seconds
 time_since_flashbang = 0.0  # Time since the flashbang effect started
 percentage = 0.0  # Percentage of inversion effect applied
 is_flashing = False  # Flag to indicate if the flashbang effect is active
+flash_delay = 2.55 # delay before flash comes (helps sound)
+flash_video = False # starts the video
 def flashbang():
-    global time_since_flashbang, is_flashing
+    global time_since_flashbang, flash_video, is_flashing
     is_flashing = True
+    flash_video = True
+    time_since_flashbang = 0 - flash_delay
     print("flash")
     mixer.music.set_volume(2.0)
     mixer.music.load("flashbang.mp3")
     mixer.music.play()
-    time_since_flashbang = 0.0
 
 def update_flashbang(dt):
     global time_since_flashbang, percentage, is_flashing
+    print(time_since_flashbang)
 
     time_since_flashbang += dt
 
-    if time_since_flashbang < easeTime:
-        ease = QuadEaseInOut(0, 1, easeTime)
-        percentage = ease(time_since_flashbang / easeTime)
+    if (time_since_flashbang > 0):
+        if time_since_flashbang < easeTime:
+            ease = QuadEaseInOut(0, 1, easeTime)
+            percentage = ease(time_since_flashbang / easeTime)
 
-    elif time_since_flashbang < flashbang_duration - easeTime:
-        percentage = 1.0
+        elif time_since_flashbang < flashbang_duration - easeTime:
+            percentage = 1.0
 
-    elif time_since_flashbang < flashbang_duration:
-        ease = QuadEaseInOut(1, 0, easeTime)
-        alpha = (time_since_flashbang -
-                 (flashbang_duration - easeTime)) / easeTime
-        percentage = ease(alpha)
+        elif time_since_flashbang < flashbang_duration:
+            ease = QuadEaseInOut(1, 0, easeTime)
+            alpha = (time_since_flashbang -
+                    (flashbang_duration - easeTime)) / easeTime
+            percentage = ease(alpha)
 
-    else:
-        percentage = 0.0
-        is_flashing = False
+        else:
+            percentage = 0.0
+            is_flashing = False
 
 
 while running:
@@ -109,13 +124,24 @@ while running:
                 flashbang()
 
     screen.fill((0, 0, 0))
+    if flash_video:
+        video_time_accum += dt
+        while video_time_accum >= video_frame_duration:
+            success, img = cap.read()
+            video_time_accum -= video_frame_duration
+            if not success:
+                cap.set(cv2.CAP_PROP_POS_FRAMES, 0)
+                flash_video = False
+                break
+        if success:
+            wn.blit(pygame.image.frombuffer(img.tobytes(), shape, "RGB"), (0, 0))
 
     draw_clock(normalFont, (screen.get_size()[0] // 2, font_size * 1.5))
 
     if is_flashing:
         update_flashbang(dt)
         pixels = pygame.surfarray.pixels3d(screen)
-        #print(percentage)
+        print(percentage)
         pixels[:] = pixels * (1 - percentage) + (255 - pixels) * percentage
         del pixels
 
