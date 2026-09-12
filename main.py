@@ -1,4 +1,5 @@
 import pygame
+import sys
 import time
 import threading
 import math
@@ -9,6 +10,7 @@ from datetime import datetime
 pygame.init()
 mixer.init()
 screen = pygame.display.set_mode((1920, 1080))
+pygame.mouse.set_visible(False)
 clock = pygame.time.Clock()
 running = True
 
@@ -84,14 +86,14 @@ def flashbang():
     is_flashing = True
     flash_video = True
     time_since_flashbang = 0 - flash_delay
-    print("flash")
+    # print("flash")
     mixer.music.set_volume(2.0)
     mixer.music.load("flashbang.mp3")
     mixer.music.play()
 
 def update_flashbang(dt):
     global time_since_flashbang, percentage, is_flashing
-    print(time_since_flashbang)
+    # print(time_since_flashbang)
 
     time_since_flashbang += dt
 
@@ -113,7 +115,7 @@ def update_flashbang(dt):
             percentage = 0.0
             is_flashing = False
 
-
+fps_timer = 0.0
 while running:
     dt = clock.tick(60) / 1000.0
     for event in pygame.event.get():
@@ -141,9 +143,15 @@ while running:
     if is_flashing:
         update_flashbang(dt)
         pixels = pygame.surfarray.pixels3d(screen)
-        print(percentage)
+        # print(percentage)
         pixels[:] = pixels * (1 - percentage) + (255 - pixels) * percentage
         del pixels
+
+    fps_timer += dt
+    if fps_timer >= 0.5:
+        sys.stdout.write(f"\rFPS: {clock.get_fps():.1f}   ")
+        sys.stdout.flush()
+        fps_timer = 0.0
 
     pygame.display.flip()
 
