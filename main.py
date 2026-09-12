@@ -48,7 +48,7 @@ while running:
     flashbang.video(dt)
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
 
-    flashbang.update(dt, screen, colors)
+    flashbang.update(dt, colors)
 
     fps_timer += dt
     if fps_timer >= 0.5:

@@ -29,7 +29,7 @@ def flashbang():
     mixer.music.load("flashbang.mp3")
     mixer.music.play()
 
-def update(dt, screen, colors):
+def update(dt, colors):
     global time_since_flashbang, percentage, is_flashing
 
     if is_flashing:
@@ -43,7 +43,7 @@ def update(dt, screen, colors):
 
             elif time_since_flashbang < flashbang_duration - ease_time:
                 percentage = 1.0
-                
+
             elif time_since_flashbang < flashbang_duration:
                 # White → black
                 percentage = 1 - ease_out_quad(
