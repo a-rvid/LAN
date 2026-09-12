@@ -1,6 +1,7 @@
 import pygame
 import sys
 import flashbang
+import randomgifs
 from datetime import datetime
 
 BASE_WIDTH = 1280
@@ -55,6 +56,8 @@ while running:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 flashbang.flashbang()
+            if event.key == pygame.K_g:
+                randomgifs.start_random_gif()
 
     screen.fill(colors["background"])
     screen.blit(logo, (500, 500))
@@ -64,9 +67,9 @@ while running:
     flashbang.update(dt, colors)
 
     screen.blit(logo, (500, 500))
+
     # GIF
     randomgifs.draw_random_gif(screen, dt, position=(0, 0))
-
 
     # FPS
     fps_timer += dt
