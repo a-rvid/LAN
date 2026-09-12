@@ -12,7 +12,7 @@ videos = [
     "images/gifs/7.gif"
 ]
 
-VIDEO_SIZE = (1080, 720)
+VIDEO_SIZE = (1280, 720)
 MAX_WORKERS = 4
 
 print("Loading videos...")
@@ -51,16 +51,42 @@ with ThreadPoolExecutor(max_workers=MAX_WORKERS) as executor:
 print(f"Loaded {len(loaded_videos)} videos")
 
 random_video = None
+random_video_playing = False
+
 
 def start_random_gif():
-    global loaded_videos
     global random_video
+    global random_video_playing
+
+    if not loaded_videos:
+        return
+
     random_video = random.choice(loaded_videos)
+
     random_video.current_frame = 0
     random_video.timer = 0
 
+    random_video_playing = True
+
 def draw_random_gif(screen, dt, position=(500, 500)):
     global random_video
-    if 'random_video' in globals() and random_video:
-        random_video.update(dt)
-        random_video.draw(screen, position)
+    global random_video_playing
+
+    if random_video is None or not random_video_playing:
+        return
+
+    # Remember which frame we were on
+    previous_frame = random_video.current_frame
+
+    # Advance the GIF
+    random_video.update(dt)
+
+    # If the frame went backwards, the GIF looped
+    if random_video.current_frame < previous_frame:
+        # Keep the last frame instead of going back to frame 0
+        random_video.current_frame = previous_frame
+
+        # Stop playback
+        random_video_playing = False
+
+    random_video.draw(screen, position)

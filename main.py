@@ -1,7 +1,5 @@
 import pygame
 import sys
-import flashbang
-import randomgifs
 from datetime import datetime
 
 BASE_WIDTH = 1280
@@ -13,6 +11,9 @@ pygame.mouse.set_visible(False)
 clock = pygame.time.Clock()
 scale = screen.get_width() / BASE_WIDTH
 running = True
+
+import flashbang
+import randomgifs
 
 # Load fonts
 font_path = "./fonts/"
@@ -61,7 +62,9 @@ while running:
 
     screen.fill(colors["background"])
     screen.blit(logo, (500, 500))
-    flashbang.video(dt)
+    
+    flashbang.video(dt, screen)
+
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
 
     flashbang.update(dt, colors)
