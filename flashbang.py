@@ -1,6 +1,6 @@
 import pygame
 import cv2
-from easing import EasingBase, QuadEaseInOut, QuadEaseIn, QuadEaseOut
+from easing import ease_in_quad, ease_out_quad
 from pygame import mixer
 
 # Load video (video won't be used other than flashbang)
@@ -13,7 +13,7 @@ video_frame_duration = 1 / cap.get(cv2.CAP_PROP_FPS)
 video_time_accum = 0.0
 
 flashbang_duration = 2.5  # Duration of the flashbang effect in seconds
-easeTime = 0.2  # Duration of the easing effect in seconds
+ease_time = 0.2  # Duration of the easing effect in seconds
 time_since_flashbang = 0.0  # Time since the flashbang effect started
 percentage = 0.0  # Percentage of inversion effect applied
 is_flashing = False  # Flag to indicate if the flashbang effect is active
@@ -35,18 +35,14 @@ def update(dt, screen):
         time_since_flashbang += dt
 
         if (time_since_flashbang > 0):
-            if time_since_flashbang < easeTime:
-                ease = QuadEaseInOut(0, 1, easeTime)
-                percentage = ease(time_since_flashbang / easeTime)
+            if time_since_flashbang < ease_time:
+                percentage = ease_in_quad(time_since_flashbang / ease_time)
 
-            elif time_since_flashbang < flashbang_duration - easeTime:
+            elif time_since_flashbang < flashbang_duration - ease_time:
                 percentage = 1.0
 
             elif time_since_flashbang < flashbang_duration:
-                ease = QuadEaseInOut(1, 0, easeTime)
-                alpha = (time_since_flashbang -
-                        (flashbang_duration - easeTime)) / easeTime
-                percentage = ease(alpha)
+                percentage = ease_out_quad((time_since_flashbang - (flashbang_duration - ease_time)) / ease_time)
 
             else:
                 percentage = 0.0
