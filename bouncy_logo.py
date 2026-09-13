@@ -6,7 +6,7 @@ logo_width, logo_height = logo.get_size()
 
 posX = 0
 posY = 0
-velocity = 5
+velocity = 2
 velocityX = velocity
 velocityY = velocity
 
