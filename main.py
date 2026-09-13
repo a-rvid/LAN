@@ -1,7 +1,11 @@
 import pygame
 import sys
+import random
+import string
 import bouncy_logo
 from datetime import datetime
+from fonts import secret_font, normal_font
+import formatting
 
 BASE_WIDTH = 1280
 BASE_HEIGHT = 720
@@ -18,8 +22,6 @@ import randomgifs
 import stars
 import events
 
-# Load fonts
-font_path = "./fonts/"
 font_size = 112
 secret_font = pygame.freetype.Font(font_path + "SecretFont.ttf")
 normal_font = pygame.freetype.Font(font_path + "LowEffortFont.ttf", font_size)
@@ -58,8 +60,25 @@ def fps_display(dt, font):
 
 clock.tick(60)
 
+random_string = ''
+show = False
+server_font = secret_font
+java = ""
+bedrock = ""
+
+def server(frames):
+    global random_string, server_font, java
+    ip = "123.456.789.101"
+    bedrock = "19132"
+    text, (w, h) = formatting.render(f"PORT: [{bedrock}]", colors["text"], size=64, obfuscate=not show)
+    screen.blit(text, (0, screen.get_height() - (h * 2 + 10)))
+    text, (w, h) = formatting.render(f"IP: [{ip}]", colors["text"], size=64, obfuscate=not show)
+    screen.blit(text, (0, screen.get_height() - h))
+
+frames = 0
 while running:
     dt = clock.tick(60) / 1000.0
+    frames += 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -68,6 +87,8 @@ while running:
                 flashbang.flashbang()
             if event.key == pygame.K_g:
                 randomgifs.start_random_gif()
+            if event.key == pygame.K_s:
+                show = not show
 
     # Update and draw everything
     # Clear the screen
@@ -99,6 +120,8 @@ while running:
     # Text
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
     fps_display(dt, normal_font)
+    server(frames)
+    flashbang.update(dt, screen, colors)
 
     # GIF
     randomgifs.timed(dt)
