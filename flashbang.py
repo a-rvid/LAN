@@ -10,13 +10,13 @@ flashbang_video = gifplayer.Gif(
 )
 
 flashbang_duration = 2.5  # Duration of the flashbang effect in seconds
-ease_time = 0.2  # Duration of the easing effect in seconds
+ease_time = 0.1  # Duration of the easing effect in seconds
 
 time_since_flashbang = 0.0  # Time since the flashbang effect started
 percentage = 0.0  # Percentage of inversion effect applied
 
 is_flashing = False  # Flag to indicate if the flashbang effect is active
-flash_delay = 2.55 # delay before flash comes (helps sound)
+flash_delay = 1.57 # delay before flash comes (helps sound)
 
 flash_video = False # starts the video
 
