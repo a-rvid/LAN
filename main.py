@@ -59,11 +59,12 @@ bedrock = ""
 
 def server(frames):
     global random_string, server_font, java
-    java = "25565"
+    ip = "123.456.789.101"
     bedrock = "19132"
-    text, (w, h) = formatting.render(f"mc java port: [{java}]", colors["text"], size=60, obfuscate=not show)
+    # todo center
+    text, (w, h) = formatting.render(f"IP: [{ip}]", colors["text"], size=64, obfuscate=not show)
     screen.blit(text, (100, 220))
-    text, (w, h) = formatting.render(f"mc java port: [{bedrock}]", colors["text"], size=60, obfuscate=not show)
+    text, (w, h) = formatting.render(f"PORT: [{bedrock}]", colors["text"], size=64, obfuscate=not show)
     screen.blit(text, (100, 290))
 
 frames = 0
