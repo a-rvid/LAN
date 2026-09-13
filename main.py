@@ -41,13 +41,13 @@ def draw_clock(clockFont, position):
     centered_position = (position[0] - rect.width // 2, position[1] - rect.height // 2)
     screen.blit(text, centered_position)
 
-def fps(dt, font):
+def fps_display(dt, font):
     text, rect = font.render(f"{int(clock.get_fps())}",  fgcolor=colors["text"], size=24)
     pos = (screen.get_width() - rect.width, screen.get_height() - rect.height)
     screen.blit(text, pos)
 
 while running:
-    dt = clock.tick(120) / 1000.0
+    dt = clock.tick(60) / 1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -58,7 +58,7 @@ while running:
                 randomgifs.start_random_gif()
 
     screen.fill(colors["background"])
-    fps(dt, normal_font)
+    fps_display(dt, normal_font)
     bouncy_logo.update(screen)
 
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
