@@ -5,7 +5,7 @@ from pygame import mixer
 
 # Load gif for flashbang effect
 flashbang_video = gifplayer.Gif(
-    './images/flashbang.gif', 
+    './images/flashbang.gif',
     size=(1280, 720)
 )
 
@@ -21,9 +21,7 @@ flash_delay = 2.55 # delay before flash comes (helps sound)
 flash_video = False # starts the video
 
 def flashbang():
-    global time_since_flashbang
-    global flash_video
-    global is_flashing
+    global flash_video, time_since_flashbang, is_flashing
 
     is_flashing = True
     flash_video = True
@@ -39,10 +37,9 @@ def flashbang():
     mixer.music.load("flashbang.mp3")
     mixer.music.play()
 
-def update(dt, colors):
-    global time_since_flashbang
-    global percentage
-    global is_flashing
+
+def update(dt, screen, colors):
+    global flash_video, time_since_flashbang, percentage, is_flashing
 
     if not is_flashing:
         return
@@ -75,7 +72,6 @@ def update(dt, colors):
 
         # Finished
         else:
-
             percentage = 0.0
             is_flashing = False
 
@@ -92,9 +88,6 @@ def update(dt, colors):
         int(c * (1 - percentage) + (255 - c) * percentage)
         for c in default_background
     )
-
-def video(dt, screen):
-    global flash_video
 
     if not flash_video:
         return

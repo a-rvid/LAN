@@ -57,12 +57,8 @@ while running:
     screen.fill(colors["background"])
     bouncy_logo.update(screen)
 
-    flashbang.video(dt, screen)
-
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
-
-    flashbang.update(dt, colors)
-
+    flashbang.update(dt, screen, colors)
 
     # GIF
     randomgifs.timed(dt)
