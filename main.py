@@ -89,9 +89,6 @@ while running:
     # Clear the screen
     screen.fill(colors["background"])
 
-    # Flashbang
-    flashbang.update(dt, screen, colors)
-
     # Stars
     star_field.update(dt)
     star_field.draw(screen)
