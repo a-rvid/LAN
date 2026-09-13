@@ -19,8 +19,8 @@ import randomgifs
 # Load fonts
 font_path = "./fonts/"
 font_size = 112
-secret_font = pygame.font.Font(font_path + "SecretFont.ttf", font_size)
-normal_font = pygame.font.Font(font_path + "LowEffortFont.ttf", font_size)
+secret_font = pygame.freetype.Font(font_path + "SecretFont.ttf")
+normal_font = pygame.freetype.Font(font_path + "LowEffortFont.ttf", font_size)
 
 # Set the window title
 pygame.display.set_caption("LAN")
@@ -37,12 +37,15 @@ colors = {
 def draw_clock(clockFont, position):
     # Draw current time
     now = datetime.now()
-    text = clockFont.render(now.strftime("%H:%M:%S"), True, colors["text"])
-    centered_position = (position[0] - text.get_width() // 2, position[1] - text.get_height() // 2)
+    text, rect = clockFont.render(now.strftime("%H:%M:%S"), fgcolor=colors["text"], size=112)
+    centered_position = (position[0] - rect.width // 2, position[1] - rect.height // 2)
     screen.blit(text, centered_position)
 
+def fps(dt, font):
+    text, rect = font.render(f"{int(clock.get_fps())}",  fgcolor=colors["text"], size=24)
+    pos = (screen.get_width() - rect.width, screen.get_height() - rect.height)
+    screen.blit(text, pos)
 
-fps_timer = 0.0
 while running:
     dt = clock.tick(120) / 1000.0
     for event in pygame.event.get():
@@ -55,6 +58,7 @@ while running:
                 randomgifs.start_random_gif()
 
     screen.fill(colors["background"])
+    fps(dt, normal_font)
     bouncy_logo.update(screen)
 
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
@@ -63,13 +67,6 @@ while running:
     # GIF
     randomgifs.timed(dt)
     randomgifs.draw_random_gif(screen, dt, position=(0, 0))
-
-    # FPS
-    fps_timer += dt
-    if fps_timer >= 0.5:
-        sys.stdout.write(f"\rFPS: {clock.get_fps():.1f}   ")
-        sys.stdout.flush()
-        fps_timer = 0.0
 
     pygame.display.flip()
 
