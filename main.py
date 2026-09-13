@@ -16,12 +16,14 @@ running = True
 import flashbang
 import randomgifs
 import stars
+import events
 
 # Load fonts
 font_path = "./fonts/"
 font_size = 112
 secret_font = pygame.freetype.Font(font_path + "SecretFont.ttf")
 normal_font = pygame.freetype.Font(font_path + "LowEffortFont.ttf", font_size)
+event_font = pygame.freetype.Font(font_path + "LowEffortFont.ttf", 24)
 
 # Set the window title
 pygame.display.set_caption("LAN")
@@ -36,6 +38,11 @@ colors = {
 }
 
 star_field = stars.StarField(num_stars=100)
+
+event_manager = events.LanEventManager("events.json")
+print("Loaded events:")
+for event in event_manager.get_events():
+    print(event)
 
 def draw_clock(clockFont, position):
     # Draw current time
@@ -72,6 +79,19 @@ while running:
     # Stars
     star_field.update(dt)
     star_field.draw(screen)
+
+    # Events
+    event_manager.display_events(
+        screen, 
+        event_font, 
+            (
+            (screen.get_size()[0] - 24*19) + 30, 
+            (screen.get_size()[1] - 24*13) - 30
+            ), 
+        size=(24*19 - 30,
+              24*13 + 30), 
+        border=10
+)
 
     # Draw the bouncy logo
     bouncy_logo.update(screen)
