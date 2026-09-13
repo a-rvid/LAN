@@ -53,6 +53,13 @@ print(f"Loaded {len(loaded_videos)} videos")
 random_video = None
 random_video_playing = False
 
+gif_time = 0.0
+def timed(dt):
+    global gif_time
+    gif_time += dt
+    if gif_time >= 300.0: # 5 minutes
+        gif_time = 0
+        start_random_gif()
 
 def start_random_gif():
     global random_video

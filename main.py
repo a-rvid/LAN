@@ -44,7 +44,7 @@ def draw_clock(clockFont, position):
 
 fps_timer = 0.0
 while running:
-    dt = clock.tick(60) / 1000.0
+    dt = clock.tick(120) / 1000.0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -56,7 +56,7 @@ while running:
 
     screen.fill(colors["background"])
     bouncy_logo.update(screen)
-    
+
     flashbang.video(dt, screen)
 
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
@@ -65,6 +65,7 @@ while running:
 
 
     # GIF
+    randomgifs.timed(dt)
     randomgifs.draw_random_gif(screen, dt, position=(0, 0))
 
     # FPS
