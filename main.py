@@ -61,11 +61,10 @@ def server(frames):
     global random_string, server_font, java
     ip = "123.456.789.101"
     bedrock = "19132"
-    # todo center
-    text, (w, h) = formatting.render(f"IP: [{ip}]", colors["text"], size=64, obfuscate=not show)
-    screen.blit(text, (100, 220))
     text, (w, h) = formatting.render(f"PORT: [{bedrock}]", colors["text"], size=64, obfuscate=not show)
-    screen.blit(text, (100, 290))
+    screen.blit(text, (0, screen.get_height() - (h * 2 + 10)))
+    text, (w, h) = formatting.render(f"IP: [{ip}]", colors["text"], size=64, obfuscate=not show)
+    screen.blit(text, (0, screen.get_height() - h))
 
 frames = 0
 while running:
