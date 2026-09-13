@@ -3,13 +3,13 @@ import random
 from concurrent.futures import ThreadPoolExecutor, as_completed
 
 videos = [
-    "images/gifs/1.gif",
-    "images/gifs/2.gif",
-    "images/gifs/3.gif",
-    "images/gifs/4.gif",
-    "images/gifs/5.gif",
-    "images/gifs/6.gif",
-    "images/gifs/7.gif"
+    "images/gifs/1.gif"#,
+    #"images/gifs/2.gif",
+    #"images/gifs/3.gif",
+    #"images/gifs/4.gif",
+    #"images/gifs/5.gif",
+    #"images/gifs/6.gif",
+    #"images/gifs/7.gif"
 ]
 
 VIDEO_SIZE = (1280, 720)

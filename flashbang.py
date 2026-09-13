@@ -9,14 +9,15 @@ flashbang_video = gifplayer.Gif(
     size=(1280, 720)
 )
 
-flashbang_duration = 2.5  # Duration of the flashbang effect in seconds
-ease_time = 0.1  # Duration of the easing effect in seconds
+flashbang_duration = 3.5  # Duration of the flashbang effect in seconds
+ease_in_time = 0.1  # Duration of the easing effect in seconds
+ease_out_time = 2  # Duration of the easing effect in seconds
 
 time_since_flashbang = 0.0  # Time since the flashbang effect started
 percentage = 0.0  # Percentage of inversion effect applied
 
 is_flashing = False  # Flag to indicate if the flashbang effect is active
-flash_delay = 1.57 # delay before flash comes (helps sound)
+flash_delay = 1.75 # delay before flash comes (helps sound)
 
 flash_video = False # starts the video
 
@@ -49,14 +50,14 @@ def update(dt, screen, colors):
     if time_since_flashbang > 0:
 
         # Fade in
-        if time_since_flashbang < ease_time:
+        if time_since_flashbang < ease_in_time:
 
             percentage = ease_in_quad(
-                time_since_flashbang / ease_time
+                time_since_flashbang / ease_in_time
             )
 
         # Full flash
-        elif time_since_flashbang < flashbang_duration - ease_time:
+        elif time_since_flashbang < flashbang_duration - ease_out_time:
 
             percentage = 1.0
 
@@ -66,8 +67,8 @@ def update(dt, screen, colors):
             percentage = 1 - ease_out_quad(
                 (
                     time_since_flashbang -
-                    (flashbang_duration - ease_time)
-                ) / ease_time
+                    (flashbang_duration - ease_out_time)
+                ) / ease_out_time
             )
 
         # Finished
