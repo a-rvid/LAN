@@ -3,6 +3,7 @@ import sys
 import random
 import string
 import bouncy_logo
+import votekick
 from datetime import datetime
 from fonts import secret_font, normal_font
 import formatting
@@ -84,6 +85,8 @@ while running:
                 randomgifs.start_random_gif()
             if event.key == pygame.K_s:
                 show = not show
+            if event.key == pygame.K_v:
+                votekick.start()
 
     # Update and draw everything
     # Clear the screen
@@ -113,6 +116,7 @@ while running:
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
     fps_display(dt, normal_font)
     server(frames)
+    votekick.update(dt, screen, colors)
     flashbang.update(dt, screen, colors)
 
     # GIF
