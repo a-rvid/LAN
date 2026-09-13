@@ -104,7 +104,6 @@ class fireparticle:
             self.size
         )
             
-
 class StarField:
     def __init__(self, num_stars):
         self.stars = [Star(random.randint(0, 1280), random.randint(0, 720)) for _ in range(num_stars)]
@@ -125,7 +124,6 @@ class StarField:
         for star in self.stars:
             if not star.update(dt):
                 self.stars.remove(star)
-
 
     def draw(self, screen):
         for star in self.stars:

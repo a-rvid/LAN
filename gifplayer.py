@@ -1,7 +1,6 @@
 import pygame
 from PIL import Image
 
-
 class Gif:
     def __init__(self, filename, size=None):
         self.image = Image.open(filename)
