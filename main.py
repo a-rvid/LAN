@@ -23,6 +23,7 @@ import stars
 import events
 
 font_size = 112
+font_path = "fonts/"
 secret_font = pygame.freetype.Font(font_path + "SecretFont.ttf")
 normal_font = pygame.freetype.Font(font_path + "LowEffortFont.ttf", font_size)
 event_font = pygame.freetype.Font(font_path + "LowEffortFont.ttf", 24)
