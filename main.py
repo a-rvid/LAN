@@ -15,6 +15,7 @@ running = True
 
 import flashbang
 import randomgifs
+import stars
 
 # Load fonts
 font_path = "./fonts/"
@@ -34,6 +35,8 @@ colors = {
     }
 }
 
+star_field = stars.StarField(num_stars=100)
+
 def draw_clock(clockFont, position):
     # Draw current time
     now = datetime.now()
@@ -46,6 +49,8 @@ def fps_display(dt, font):
     pos = (screen.get_width() - rect.width, screen.get_height() - rect.height)
     screen.blit(text, pos)
 
+clock.tick(60)
+
 while running:
     dt = clock.tick(60) / 1000.0
     for event in pygame.event.get():
@@ -57,12 +62,23 @@ while running:
             if event.key == pygame.K_g:
                 randomgifs.start_random_gif()
 
+    # Update and draw everything
+    # Clear the screen
     screen.fill(colors["background"])
-    fps_display(dt, normal_font)
+
+    # Flashbang
+    flashbang.update(dt, screen, colors)
+
+    # Stars
+    star_field.update(dt)
+    star_field.draw(screen)
+
+    # Draw the bouncy logo
     bouncy_logo.update(screen)
 
+    # Text
     draw_clock(normal_font, (screen.get_size()[0] // 2, font_size * 1.5))
-    flashbang.update(dt, screen, colors)
+    fps_display(dt, normal_font)
 
     # GIF
     randomgifs.timed(dt)
