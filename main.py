@@ -61,14 +61,8 @@ def fps_display(dt, font):
 
 clock.tick(60)
 
-random_string = ''
 show = False
-server_font = secret_font
-java = ""
-bedrock = ""
-
 def server(frames):
-    global random_string, server_font, java
     ip = "123.456.789.101"
     bedrock = "19132"
     text, (w, h) = formatting.render(f"PORT: [{bedrock}]", colors["text"], size=64, obfuscate=not show)
@@ -78,7 +72,7 @@ def server(frames):
 
 frames = 0
 while running:
-    dt = clock.tick(60) / 1000.0
+    dt = clock.tick(30) / 1000.0
     frames += 1
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -104,14 +98,14 @@ while running:
 
     # Events
     event_manager.display_events(
-        screen, 
-        event_font, 
+        screen,
+        event_font,
             (
-            (screen.get_size()[0] - 24*19) + 30, 
+            (screen.get_size()[0] - 24*19) + 30,
             (screen.get_size()[1] - 24*13) - 30
-            ), 
+            ),
         size=(24*19 - 30,
-              24*13 + 30), 
+              24*13 + 30),
         border=10
 )
 
