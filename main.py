@@ -35,8 +35,10 @@ pygame.display.set_caption("LAN")
 colors = {
     "text": (255, 255, 255),  # White color for the clock text
     "background": (0, 0, 0),   # Black background
+    "text_background": (128, 128, 128),  # Black background for text
     "default": {
         "text": (255, 255, 255),  # White color for the clock text
+        "text_background": (128, 128, 128),  # Black background for text
         "background": (0, 0, 0)   # Black background
     }
 }
@@ -106,7 +108,8 @@ while running:
             ),
         size=(24*19 - 30,
               24*13 + 30),
-        border=10
+        border=10,
+        colors=colors
 )
 
     # Draw the bouncy logo
@@ -117,6 +120,8 @@ while running:
     fps_display(dt, normal_font)
     server(frames)
     votekick.update(dt, screen, colors)
+    
+    # Flashbang
     flashbang.update(dt, screen, colors)
 
     # GIF
