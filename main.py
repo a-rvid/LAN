@@ -7,6 +7,7 @@ import votekick
 from datetime import datetime
 from fonts import secret_font, normal_font
 import formatting
+import loading_screen
 
 BASE_WIDTH = 1280
 BASE_HEIGHT = 720
@@ -45,10 +46,9 @@ colors = {
 
 star_field = stars.StarField(num_stars=100)
 
+print("Loading events...")
 event_manager = events.LanEventManager("events.json")
-print("Loaded events:")
-for event in event_manager.get_events():
-    print(event)
+print("Loaded events")
 
 def draw_clock(clockFont, position):
     # Draw current time
@@ -127,6 +127,9 @@ while running:
     # GIF
     randomgifs.timed(dt)
     randomgifs.draw_random_gif(screen, dt, position=(0, 0))
+    
+    # Tests
+    # loading_screen.loading_bar(screen, 0, 0, (200, 50), 0.5)
 
     pygame.display.flip()
 

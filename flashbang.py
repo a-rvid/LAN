@@ -77,19 +77,21 @@ def update(dt, screen, colors):
             is_flashing = False
 
     # Apply color inversion
-    default_text = colors["default"]["text"]
-    default_background = colors["default"]["background"]
 
     colors["text"] = tuple(
         int(c * (1 - percentage) + (255 - c) * percentage)
-        for c in default_text
+        for c in colors["default"]["text"]
     )
 
     colors["background"] = tuple(
         int(c * (1 - percentage) + (255 - c) * percentage)
-        for c in default_background
+        for c in colors["default"]["background"]
     )
-
+    
+    colors["text_background"] = tuple(
+        int(c * (1 - percentage) + 255 * percentage)
+        for c in colors["default"]["text_background"]
+    )
     if not flash_video:
         return
 

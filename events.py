@@ -31,7 +31,7 @@ class LanEventManager:
         # Draw a semi-transparent background for the event list
         pygame.draw.rect(
             screen,
-            (128, 128, 128, 150) if colors is None else colors["background"],
+            (128, 128, 128, 150) if colors is None else colors["text_background"],
             pygame.Rect(position[0], position[1], size[0], size[1]),
             border_radius=border
         )
